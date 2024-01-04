@@ -21,8 +21,7 @@ void Sed::replace2(std::string target, std::string str)
 	std::cerr << "Error: can't open the file " << this->infile << std::endl;
 		return ;
 	}
-	std::getline(ifs, start, '\0');
-	if (!start.c_str())
+	if (!std::getline(ifs, start, '\0'))
 	{
 		std::cerr << "The file is empty" << std::endl;
 		return ;

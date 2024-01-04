@@ -12,7 +12,7 @@ this->nb = input << this->bits; }
 
 Fixed::Fixed(const float input) { 
 //std::cout << "Float constructor called\n";
-this->nb = round(input * (1 << this->bits)); }
+this->nb = roundf(input * (1 << this->bits)); }
 
 Fixed::Fixed(const Fixed &copy) {
   //std::cout << "Copy constructor called\n";
@@ -82,7 +82,7 @@ Fixed Fixed::operator+(const Fixed &rh) const {
 }
 
 Fixed Fixed::operator-(const Fixed &rh) const {
-  return (Fixed(this->toFloat() + rh.toFloat()));
+  return (Fixed(this->toFloat() - rh.toFloat()));
 }
 
 Fixed &Fixed::operator--(void) {

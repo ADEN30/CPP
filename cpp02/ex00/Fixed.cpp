@@ -2,7 +2,7 @@
 #include <iostream>
 Fixed::Fixed() {
   std::cout << "Default constructor called\n";
-  this->nb = 0;
+  this->nb = 5;
 }
 
 Fixed::Fixed(const Fixed &copy) {

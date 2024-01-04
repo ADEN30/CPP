@@ -9,8 +9,9 @@ int main( void ) {
     {
         std::cout << "Enter a level: ";
         std::cin >> input;
-        harl.complain(input);
-    } while (input.compare("exit"));
+        if (!std::cin.eof())
+            harl.complain(input);
+    } while (input.compare("exit") && !std::cin.eof());
 
     return 0;
 }

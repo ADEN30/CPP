@@ -4,17 +4,14 @@
 int main(void) {
   Zombie *horde;
   int i;
-  int size;
   std::string str;
 
-  std::cout << "enter the number of zombie of the hord " << std::endl;
-  std::cin >> size;
   std::cout << "enter the name of zombies" << std::endl;
   std::cin >> str;
-  horde = zombieHorde(size, str);
+  horde = zombieHorde(5, str);
   i = 0;
 
-  while (i < size) {
+  while (i < 5) {
     horde[i++].announce();
   }
   delete[] horde;

@@ -2,7 +2,6 @@
 
 HumanA::HumanA(std::string name, Weapon &arm) : arm(arm) {
   this->name = name;
-  this->arm = arm;
   std::cout << "HumanA constructor is called." << std::endl;
 }
 
