@@ -7,7 +7,7 @@ Fixed::Fixed() {
 
 Fixed::Fixed(const Fixed &copy) {
   std::cout << "Copy constructor called\n";
-  this->nb = copy.nb;
+  *this = copy;
 }
 
 Fixed::~Fixed() { std::cout << "Destructor called\n"; }

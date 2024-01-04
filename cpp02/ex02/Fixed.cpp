@@ -2,29 +2,40 @@
 #include <cmath>
 #include <iostream>
 Fixed::Fixed() {
-  std::cout << "Default constructor called\n";
+  //std::cout << "Default constructor called\n";
   this->nb = 0;
 }
 
-Fixed::Fixed(const int input) { this->nb = input << this->bits; }
+Fixed::Fixed(const int input) { 
+//std::cout << "Int constructor called\n";
+this->nb = input << this->bits; }
 
-Fixed::Fixed(const float input) { this->nb = round(input * (1 << this->bits)); }
+Fixed::Fixed(const float input) { 
+//std::cout << "Float constructor called\n";
+this->nb = round(input * (1 << this->bits)); }
 
 Fixed::Fixed(const Fixed &copy) {
-  std::cout << "Copy constructor called\n";
-  this->nb = copy.getRawBits();
+  //std::cout << "Copy constructor called\n";
+  *this = copy;
 }
 
-Fixed::~Fixed() { std::cout << "Destructor called\n"; }
+Fixed::~Fixed() { /*std::cout << "Destructor called\n";*/ }
 
 Fixed &Fixed::operator=(const Fixed &rh) {
-  std::cout << "Copy assignment operator called\n";
-  this->nb = rh.getRawBits();
+ // std::cout << "Copy assignment operator called\n";
+  this->nb = rh.nb;
   return (*this);
 }
 
 int Fixed::operator==(const Fixed &rh) {
   if (this->nb == rh.nb)
+    return (1);
+  else
+    return (0);
+}
+
+int Fixed::operator!=(const Fixed &rh) {
+  if (this->nb != rh.nb)
     return (1);
   else
     return (0);
@@ -97,12 +108,12 @@ Fixed &Fixed::operator++(void) {
 }
 
 int Fixed::getRawBits(void) const {
-  std::cout << "getRawbits member function called\n";
+ std::cout << "getRawbits member function called\n";
   return (this->nb);
 }
 
 void Fixed::setRawBits(int const raw) {
-  std::cout << "setRawbits member function called\n";
+ std::cout << "setRawbits member function called\n";
   this->nb = raw;
 }
 

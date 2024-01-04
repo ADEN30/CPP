@@ -5,20 +5,24 @@ Fixed::Fixed() {
   this->nb = 0;
 }
 
-Fixed::Fixed(const int input) { this->nb = input << this->bits; }
+Fixed::Fixed(const int input) { 
+std::cout << "Int constructor called\n";
+this->nb = input << this->bits; }
 
-Fixed::Fixed(const float input) { this->nb = input * (1 << this->bits); }
+Fixed::Fixed(const float input) { 
+std::cout << "Float constructor called\n";
+this->nb = roundf(input * (1 << this->bits)); }
 
 Fixed::Fixed(const Fixed &copy) {
   std::cout << "Copy constructor called\n";
-  this->nb = copy.nb;
+  *this= copy;
 }
 
 Fixed::~Fixed() { std::cout << "Destructor called\n"; }
 
 Fixed &Fixed::operator=(const Fixed &rh) {
   std::cout << "Copy assignment operator called\n";
-  this->nb = rh.getRawBits();
+  this->nb = rh.nb;
   return (*this);
 }
 

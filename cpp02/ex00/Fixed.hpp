@@ -12,7 +12,7 @@ public:
 
 private:
   int nb;
-  static const int bits;
+  static const int bits = 8;
 };
 
 #endif
