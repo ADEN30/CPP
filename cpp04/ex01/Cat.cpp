@@ -2,7 +2,7 @@
 
 Cat::Cat() : Animal("Cat") {
   this->ide = new Brain();
-  std::cout << this->type << "Cat constructor is called.\n";
+  std::cout << "Cat constructor is called.\n";
 }
 Cat::Cat(const Cat &copy) : Animal(copy) {
   *this = copy;
@@ -10,7 +10,7 @@ Cat::Cat(const Cat &copy) : Animal(copy) {
 }
 Cat::~Cat() {
   delete this->ide;
-  std::cout << this->type << "Cat destructor is called.\n";
+  std::cout << "Cat destructor is called.\n";
 }
 
 Cat &Cat::operator=(const Cat &src) {
