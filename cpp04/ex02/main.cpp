@@ -2,8 +2,8 @@
 #include "Cat.hpp"
 #include "Dog.hpp"
 #include <iostream>
-int main(void) {
 
+int main(void) {
   Animal *j = new Dog();
   Animal *i = new Cat();
 
@@ -13,7 +13,7 @@ int main(void) {
   Dog basic;
   { Dog tmp = basic; }
 
-  const Animal *animals[4] = {new Dog(), new Dog(), new Cat(), new Cat()};
+  Animal *animals[4] = {new Dog(), new Dog(), new Cat(), new Cat()};
   for (int i = 0; i < 4; i++) {
     delete animals[i];
   }

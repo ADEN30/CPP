@@ -18,7 +18,4 @@ Animal &Animal::operator=(const Animal &src) {
 }
 void Animal::makeSound() { std::cout << "Animal make all sound.\n"; }
 
-std::string Animal::gettype()
-{
-	return this->type;
-}
+std::string Animal::gettype() { return this->type; }

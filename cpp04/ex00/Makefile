@@ -2,7 +2,7 @@ CC = c++
 CFLAGS = -Wall -Wextra -Werror -std=c++98 -fsanitize=address
 RM = rm -rf
 
-GENERAL = Animal Dog Cat\
+GENERAL = Animal Dog Cat WrongCat WrongAnimal\
 
 NAME = Animal
 SRCS = $(addsuffix .cpp, $(GENERAL))\

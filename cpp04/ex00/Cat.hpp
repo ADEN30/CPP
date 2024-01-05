@@ -8,7 +8,6 @@ public:
   Cat(const Cat &src);
   Cat &operator=(const Cat &src);
   ~Cat();
-  std::string gettype();
   void makeSound();
 };
 
