@@ -28,6 +28,7 @@ ScavTrap &ScavTrap::operator=(const ScavTrap &src) {
   this->hitpoints = src.hitpoints;
   this->energy = src.energy;
   this->attackdamage = src.attackdamage;
+  std::cout << "ScavTrap assignements called" << std::endl;
   return *this;
 }
 ScavTrap::~ScavTrap() {
@@ -35,13 +36,14 @@ ScavTrap::~ScavTrap() {
 }
 
 void ScavTrap::attack(const std::string &target) {
-  if (this->energy <= 0) {
-    std::cout << "ScavTrap " << this->name
-              << " doesn't have energy to attack.\n";
-  } else if (this->hitpoints == 0) {
+  if (this->hitpoints == 0) {
     std::cout << "ScavTrap " << this->name << " is dead, can't to attack"
               << std::endl;
-  } else {
+  }
+  else if (this->energy <= 0) {
+    std::cout << "ScavTrap " << this->name
+              << " doesn't have energy to attack.\n";
+  }  else {
     std::cout << "ScavTrap " << this->name << " attack " << target
               << ", causing " << this->attackdamage << " damages\n";
     this->energy -= 1;

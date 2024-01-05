@@ -1,13 +1,13 @@
 #include "ScavTrap.hpp"
 
-int main(void) {
-  ScavTrap ash("Ash");
-  ScavTrap ash2(ash);
-
-  ash.attack("the air");
-  ash.takeDamage(10);
-  ash.beRepaired(10);
-  ash.guardGate();
-
-  return 0;
+int main()
+{
+    ScavTrap scav("Draven");
+    ScavTrap scav2("Ash");
+    ScavTrap scaav = scav;
+    scav.attack("Ash");
+    scav2.takeDamage(500);
+    scav2.beRepaired(10);
+    scav2.guardGate();
+    return 0;
 }
