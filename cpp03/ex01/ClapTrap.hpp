@@ -4,12 +4,12 @@
 class ClapTrap {
 protected:
   std::string name;
-  int hitpoints = 100;
-  int energy = 50;
-  int attackdamage = 20;
-  ClapTrap();
+  unsigned int hitpoints;
+  unsigned int energy;
+  unsigned int attackdamage;
 
 public:
+  ClapTrap();
   ClapTrap(std::string name);
   ClapTrap(const ClapTrap &rh);
   ClapTrap &operator=(const ClapTrap &rh);

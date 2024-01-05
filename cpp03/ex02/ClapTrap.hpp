@@ -7,9 +7,9 @@ protected:
   unsigned int hitpoints;
   unsigned int energy;
   unsigned int attackdamage;
-  ClapTrap();
 
 public:
+  ClapTrap();
   ClapTrap(std::string name);
   ClapTrap(const ClapTrap &rh);
   ClapTrap &operator=(const ClapTrap &rh);

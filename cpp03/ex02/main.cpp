@@ -1,13 +1,18 @@
+#include "ClapTrap.hpp"
 #include "FragTrap.hpp"
+#include "ScavTrap.hpp"
 
-int main(void) {
-  FragTrap ash("Ash");
-  FragTrap ash2(ash);
+int main() {
+  ScavTrap scav("Odin");
+  scav.attack("target");
+  scav.takeDamage(10);
+  scav.beRepaired(10);
+  scav.guardGate();
 
-  ash.attack("the air");
-  ash.takeDamage(10);
-  ash.beRepaired(10);
-  ash.highFiveGuys();
-
+  FragTrap frag("Thor");
+  frag.attack("target");
+  frag.takeDamage(10);
+  frag.beRepaired(10);
+  frag.highFiveGuys();
   return 0;
 }

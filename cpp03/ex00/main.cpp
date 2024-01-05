@@ -6,7 +6,7 @@ int main(void) {
 
   clap.attack("Draven");
   draven.takeDamage(6);
-  draven.takeDamage(13);
+  // draven.takeDamage(13);
   for (int i = 0; i < 10; i++)
     clap.attack("Draven");
   draven.beRepaired(1);
