@@ -25,7 +25,7 @@ Bureaucrat &Bureaucrat::operator=(const Bureaucrat &src) {
 }
 
 Bureaucrat::~Bureaucrat() {
-  std::cout << this->name << " is deleted." << std::endl;
+  std::cout << this->name << " Bureaucrate is Deleted." << std::endl;
 }
 
 int Bureaucrat::getGrade() const { return (this->grade); }
@@ -43,15 +43,15 @@ void Bureaucrat::promote() {
   if (this->grade <= 1)
     throw GradeTooLowExeption();
   else
-    std::cout << this->name << " is promoted grade " << --(this->grade) << ". Congratulation !!" << std::endl;
+    std::cout << this->name << " is promoted grade " << --(this->grade) << ". Congratulation!!" << std::endl;
 }
 
 const char *Bureaucrat::GradeTooHighExeption::what() const throw() {
-  return ("The number is too high");
+  return ("Bureaucrate: The number is too high");
 }
 
 const char *Bureaucrat::GradeTooLowExeption::what() const throw() {
-  return ("The number is too low");
+  return ("Bureaucrate: The number is too low");
 }
 
 std::ostream&  operator<<(std::ostream& flux, const Bureaucrat& obj)

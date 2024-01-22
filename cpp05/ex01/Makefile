@@ -2,7 +2,8 @@ CC = c++
 CFLAGS = -Wall -Wextra -Werror -std=c++98 -fsanitize=address
 RM = rm -rf
 
-GENERAL = Bureaucrat\
+GENERAL =	Bureaucrat\
+			Form\
 
 NAME = Bureaucracy
 SRCS = $(addsuffix .cpp, $(GENERAL))\

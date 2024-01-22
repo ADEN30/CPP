@@ -25,7 +25,7 @@ Bureaucrat &Bureaucrat::operator=(const Bureaucrat &src) {
 }
 
 Bureaucrat::~Bureaucrat() {
-  std::cout << this->name << " is deleted." << std::endl;
+  std::cout << this->name << " Bureaucrate is Deleted." << std::endl;
 }
 
 int Bureaucrat::getGrade() const { return (this->grade); }
@@ -43,18 +43,31 @@ void Bureaucrat::promote() {
   if (this->grade <= 1)
     throw GradeTooLowException();
   else
-    std::cout << this->name << " is promoted grade " << --(this->grade) << ". Congratulation !!" << std::endl;
+    std::cout << this->name << " is promoted grade " << --(this->grade) << ". Congratulation!!" << std::endl;
 }
 
 const char *Bureaucrat::GradeTooHighException::what() const throw() {
-  return ("The number is too high");
+  return ("Bureaucrate: The number is too high");
 }
 
 const char *Bureaucrat::GradeTooLowException::what() const throw() {
-  return ("The number is too low");
+  return ("Bureaucrate: The number is too low");
+}
+
+void Bureaucrat::signForm(Form& obj)
+{
+  try
+  {
+    obj.beSigned(*this);
+    std::cout << this->getName() << " signed " << obj.getName() << std::endl;
+  } 
+  catch(const std::exception &e){
+    std::cout << this->getName() << "couldn't sign " << obj.getName() << " because Bureaucrate Grade is lower." << std::endl;
+  }
 }
 
 std::ostream&  operator<<(std::ostream& flux, const Bureaucrat& obj)
 {
-  flux << obj.getName() << " , bureaucrate grade " << obj.getGrade() << std::endl;
+  flux << obj.getName() << " , Bureaucrate grade " << obj.getGrade() << std::endl;
+  return flux;
 }
