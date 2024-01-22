@@ -14,22 +14,21 @@ class   Bureaucrat{
         Bureaucrat(const Bureaucrat&);
         Bureaucrat& operator=(const Bureaucrat&);
         ~Bureaucrat();
-        int getGrade();
-        const std::string getName();
+        int getGrade() const;
+        const std::string getName() const;
         void    demote();
         void    promote();
-        class GradeTooHighExeption : public std::exception
+        class GradeTooHighException : public std::exception
         {
             public:
             const char* what() const throw();
         };
-        class GradeTooLowExeption : public std::exception
+        class GradeTooLowException : public std::exception
         {
             const char* what() const throw();
         };
-    
-
-
 };
+
+std::ostream&   operator<<(std::ostream&, const Bureaucrat&);
 
 #endif
