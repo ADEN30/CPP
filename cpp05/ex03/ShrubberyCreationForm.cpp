@@ -15,6 +15,11 @@ ShrubberyCreationForm& ShrubberyCreationForm::operator=(const ShrubberyCreationF
 	return (*this);
 }
 
+AForm* ShrubberyCreationForm::build(std::string target)
+{
+	return (new ShrubberyCreationForm(target));
+}
+
 ShrubberyCreationForm::~ShrubberyCreationForm()
 {
 	std::cout << "ShruberryCreationForm is Delete." << std::endl; 

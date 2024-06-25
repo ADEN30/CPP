@@ -11,6 +11,11 @@ Intern::~Intern()
     std::cout << "Intern destructor is called." << std::endl;
 }
 
+AForm* Intern::PresidentialPardonForm_build(std::string target)
+{
+    return (new PresidentialPardonForm(target));
+}
+
 AForm*  Intern::makeForm(std::string name, std::string target) const
 {
     std::string formNames[] = {
@@ -18,18 +23,17 @@ AForm*  Intern::makeForm(std::string name, std::string target) const
         "presidential pardon",
         "shrubbery creation"
     };
-    AForm*    forms[] = {
-        new RobotomyRequestForm( target ),
-        new PresidentialPardonForm( target ),
-        new ShrubberyCreationForm( target )
-    };
+    AForm* (*form[])(std::string target) = {
+        PresidentialPardonForm::build,
+        RobotomyRequestForm::build,
+        ShrubberyCreationForm::build};
     
     for ( int i(0); i < 3; i++ ) {
         if ( name == formNames[i] ) {
             std::cout << "Intern creates " << name << std::endl;
-            return forms[i];
+            return (*form[i])(target);
         }
     }
-    std::cout << "Intern cannot create " << name << " form" << std::endl;
+    std::cout << "Intern can not create " << name << " form" << std::endl;
     return NULL;
 }

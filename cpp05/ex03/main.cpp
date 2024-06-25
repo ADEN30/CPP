@@ -1,13 +1,19 @@
 #include "Bureaucrat.hpp"
 #include "AForm.hpp"
-#include "RobotomyRequestForm.hpp"
-#include "PresidentialPardonForm.hpp"
-#include "ShrubberyCreationForm.hpp"
-
+#include "Intern.hpp"
 
 int main()
 {
-   try {
+    {
+        Intern  someRandomIntern;
+        AForm*   rrf;
+
+        rrf = someRandomIntern.makeForm("robotomy", "Bender");
+        rrf = someRandomIntern.makeForm("robotomy request", "Bender");
+        delete rrf;
+    }
+
+    try {
         Bureaucrat bureaucrat("ash", 2); // error with 200
         ShrubberyCreationForm form1("Shrubbery");
         RobotomyRequestForm form2("Robotomy");
@@ -27,7 +33,7 @@ int main()
         bureaucrat.executeForm(form3);
     } catch (std::exception &e) {
         std::cout << e.what() << std::endl;
-    } 
+    }
     return 0;
     
 }

@@ -1,6 +1,6 @@
 #include "Form.hpp"
 
-Form::Form() : name("defaltForm"), signe(0), rq_grade(150), ex_grade(150)
+Form::Form() : name("defaultForm"), signe(0), rq_grade(150), ex_grade(150)
 {
 }
 
@@ -9,12 +9,12 @@ Form::Form(std::string name, int sign_grade, int ex_grade) : name(name), signe(0
 	if (sign_grade < 1 || ex_grade < 1)
 	{
 		std::cout << "We can't make a Form because ";
-		throw GradeTooLowException();
+		throw GradeTooHighException();
 	}
 	else if (sign_grade > 150 || ex_grade > 150)
 	{
 		std::cout << "We can't make a Form because ";
-		throw GradeTooHighException(); 
+		throw GradeTooLowException(); 
 	}
 	std::cout << name << " Form is Create." << std::endl; 
 }
@@ -57,11 +57,11 @@ int	Form::getExGrade() const
 
 const char* Form::GradeTooHighException::what() const throw()
 {
-	return ("The grade is too high for the Form");
+	return ("The grade is too high");
 }
 const char* Form::GradeTooLowException::what() const throw()
 {
-	return ("The grade is too low for the Form");
+	return ("The grade is too low");
 }
 
 void	Form::beSigned(const Bureaucrat& obj)

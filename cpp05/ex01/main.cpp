@@ -6,9 +6,10 @@ int main()
     try
     {
         Bureaucrat test("Paul", 2);
+        Form paper("Cpp05", 2, 8);
         test.demote();
         std::cout << test;
-        Form paper("Cpp05", 2, 8);
+       test.signForm(paper);
         std::cout << paper;
         test.promote();
        test.signForm(paper);

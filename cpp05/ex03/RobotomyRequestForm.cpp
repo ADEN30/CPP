@@ -22,6 +22,11 @@ RobotomyRequestForm& RobotomyRequestForm::operator=(const RobotomyRequestForm& s
     return (*this);
 }
 
+AForm* RobotomyRequestForm::build(std::string target)
+{
+    return (new RobotomyRequestForm(target));
+}
+
 void RobotomyRequestForm::execute(const Bureaucrat& executor) const
 {
     std::time_t result;

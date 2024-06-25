@@ -21,7 +21,10 @@ PresidentialPardonForm& PresidentialPardonForm::operator=(const PresidentialPard
 	std::cout << "PresientialPardonForm assignement is called." << std::endl;
 	return (*this);
 }
-
+AForm* PresidentialPardonForm::build(std::string target)
+{
+	return (new PresidentialPardonForm(target));
+}
 void	PresidentialPardonForm::execute(const Bureaucrat& executor) const
 {
 	if (executor.getGrade() < this->getExGrade())

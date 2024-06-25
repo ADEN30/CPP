@@ -9,12 +9,12 @@ AForm::AForm(std::string name, int sign_grade, int ex_grade) : name(name), signe
 	if (sign_grade < 1 || ex_grade < 1)
 	{
 		std::cout << "We can't make a Form because ";
-		throw GradeTooLowException();
+		throw GradeTooHighException();
 	}
 	else if (sign_grade > 150 || ex_grade > 150)
 	{
 		std::cout << "We can't make a Form because ";
-		throw GradeTooHighException(); 
+		throw GradeTooLowException(); 
 	}
 	std::cout << name << " Form is Create." << std::endl; 
 }
@@ -24,12 +24,12 @@ AForm::AForm(std::string name, std::string target, int sign_grade, int ex_grade)
 	if (sign_grade < 1 || ex_grade < 1)
 	{
 		std::cout << "We can't make a Form because ";
-		throw GradeTooLowException();
+		throw GradeTooHighException();
 	}
 	else if (sign_grade > 150 || ex_grade > 150)
 	{
 		std::cout << "We can't make a Form because ";
-		throw GradeTooHighException(); 
+		throw GradeTooLowException(); 
 	}
 	std::cout << name << " Form is Create." << std::endl; 
 }
@@ -77,11 +77,11 @@ const std::string	AForm::getTarget() const
 
 const char* AForm::GradeTooHighException::what() const throw()
 {
-	return ("The grade is too high for the Form");
+	return ("The grade is too high");
 }
 const char* AForm::GradeTooLowException::what() const throw()
 {
-	return ("The grade is too low for the Form");
+	return ("The grade is too low");
 }
 
 void	AForm::beSigned(const Bureaucrat& obj)
@@ -97,11 +97,6 @@ void	AForm::beSigned(const Bureaucrat& obj)
 		this->signe = true;
 	}
 }
-
-/*void AForm::execute(const Bureaucrat& executor) const
-{
-	void(*executor);
-}*/
 
 std::ostream& operator<<(std::ostream& out, const AForm& src)
 {

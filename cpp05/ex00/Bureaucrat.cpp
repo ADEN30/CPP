@@ -4,9 +4,9 @@ Bureaucrat::Bureaucrat() : name("DefaultCrate"), grade(1) {}
 
 Bureaucrat::Bureaucrat(const std::string name, int grade) : name(name) {
   if (grade < 1)
-    throw GradeTooLowExeption();
-  else if (grade > 150)
     throw GradeTooHighExeption();
+  else if (grade > 150)
+    throw GradeTooLowExeption();
   else {
     this->grade = grade;
     std::cout << this->name << " is created with grade " << this->grade << std::endl;
@@ -34,27 +34,28 @@ const std::string Bureaucrat::getName() const { return (this->name); }
 
 void Bureaucrat::demote() {
   if (this->grade >= 150)
-    throw GradeTooHighExeption();
+    throw GradeTooLowExeption();
   else
     std::cout << this->name << " is demoted grade " << ++(this->grade) << "." << std::endl;
 }
 
 void Bureaucrat::promote() {
   if (this->grade <= 1)
-    throw GradeTooLowExeption();
+    throw GradeTooHighExeption();
   else
     std::cout << this->name << " is promoted grade " << --(this->grade) << ". Congratulation!!" << std::endl;
 }
 
 const char *Bureaucrat::GradeTooHighExeption::what() const throw() {
-  return ("Bureaucrate: The number is too high");
+  return ("Bureaucrate: The highest number grade is 1. I can't assign a number < 1");
 }
 
 const char *Bureaucrat::GradeTooLowExeption::what() const throw() {
-  return ("Bureaucrate: The number is too low");
+  return ("Bureaucrate: The lower number grade is 150. I can't assign a number > 150");
 }
 
 std::ostream&  operator<<(std::ostream& flux, const Bureaucrat& obj)
 {
   flux << obj.getName() << " , bureaucrate grade " << obj.getGrade() << std::endl;
+  return (flux);
 }

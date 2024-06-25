@@ -12,7 +12,8 @@ bool isChar(std::string str)
 bool isInt(std::string str)
 {
     long unsigned int i = 0;
-
+    if (str[i] == '-' || str[i] == '+')
+        i++;
     while(i < str.size() && isdigit(str[i]))
     {
         i++;
@@ -26,15 +27,17 @@ bool isFloat(std::string str)
 {
     int _dot = 0;
     long unsigned int i = 0;
-    if (str[i] == '-')
+    if (str[i] == '-' || str[i] == '+')
         i++;
+    if (!std::isdigit(str[i]))
+        return (false);
     while((i < str.size() && isdigit(str[i])) || str[i] == '.')
     {
         if (str[i] == '.')
             _dot++;
         i++;
     }
-    if (_dot != 1 || str[i] != 'f' || (str[i] == 'f' && i != str.size() - 1) || (str[i - 2] != '.' && _dot == 1))
+    if (_dot != 1 || (std::isalnum(str[i]) && i < str.size() - 1) || (str[str.size() - 1] != 'f') || !std::isdigit(str[str.size() - 2]))
         return (false);
     return (true);
 }
@@ -44,15 +47,17 @@ bool isDouble(std::string str)
     int _dot = 0;
     long unsigned int i = 0;
 
-    if (str[i] == '-')
+    if (str[i] == '-' || str[i] == '+')
         i++;
+    if (!std::isdigit(str[i]))
+        return (false);
      while((i < str.size() && isdigit(str[i])) || str[i] == '.')
      {
          if (str[i] == '.')
              _dot++;
          i++;
     }
-    if (_dot != 1 || str[i] || (str[i - 2] != '.' && _dot == 1))
+    if (_dot != 1 || (!std::isdigit(str[i]) && i < str.size()) || !std::isdigit(str[str.size() - 1]))
         return (false);
     return (true);
 }

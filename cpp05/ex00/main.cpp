@@ -10,6 +10,7 @@ int main()
         test.promote();
         test.promote();
         test.promote();
+        test.promote();
     }
     catch(const std::exception& e)
     {

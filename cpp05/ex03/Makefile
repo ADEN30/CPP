@@ -7,6 +7,7 @@ GENERAL =	Bureaucrat\
 			ShrubberyCreationForm\
 			RobotomyRequestForm\
 			PresidentialPardonForm\
+			Intern\
 
 NAME = Bureaucracy
 SRCS = $(addsuffix .cpp, $(GENERAL))\

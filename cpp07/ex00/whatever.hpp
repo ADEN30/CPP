@@ -6,13 +6,30 @@
 void printsmth();
 
 template<typename T>
-void swap(T& a, T& b);
+void swap(T & a, T & b)
+{
+    T tmp;
+
+    tmp = a;
+    a = b;
+    b = tmp;
+}
 
 template<typename U>
-U min(U const & a, U const & b);
+U min(U const &  a, U const & b)
+{
+    if (a < b)
+        return (a);
+    return (b);
+}
 
 template<typename A>
-A max(A const & a, A const &  b);
+A max(A const & a, A const & b)
+{
+    if (a > b)
+        return (a);
+    return (b);
+}
 
 
 #endif

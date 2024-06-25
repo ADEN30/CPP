@@ -4,9 +4,9 @@ Bureaucrat::Bureaucrat() : name("DefaultCrate"), grade(1) {}
 
 Bureaucrat::Bureaucrat(const std::string name, int grade) : name(name) {
   if (grade < 1)
-    throw GradeTooLowException();
-  else if (grade > 150)
     throw GradeTooHighException();
+  else if (grade > 150)
+    throw GradeTooLowException();
   else {
     this->grade = grade;
     std::cout << this->name << " is created with grade " << this->grade << std::endl;
@@ -34,24 +34,24 @@ const std::string Bureaucrat::getName() const { return (this->name); }
 
 void Bureaucrat::demote() {
   if (this->grade >= 150)
-    throw GradeTooHighException();
+    throw GradeTooLowException();
   else
     std::cout << this->name << " is demoted grade " << ++(this->grade) << "." << std::endl;
 }
 
 void Bureaucrat::promote() {
   if (this->grade <= 1)
-    throw GradeTooLowException();
+    throw GradeTooHighException();
   else
     std::cout << this->name << " is promoted grade " << --(this->grade) << ". Congratulation!!" << std::endl;
 }
 
 const char *Bureaucrat::GradeTooHighException::what() const throw() {
-  return ("Bureaucrate: The number is too high");
+  return ("Bureaucrate: The highest number grade is 1. I can't assign a number < 1");
 }
 
 const char *Bureaucrat::GradeTooLowException::what() const throw() {
-  return ("Bureaucrate: The number is too low");
+  return ("Bureaucrate: The lower number grade is 150. I can't assign a number > 150");
 }
 
 void Bureaucrat::signForm(Form& obj)
@@ -62,7 +62,7 @@ void Bureaucrat::signForm(Form& obj)
     std::cout << this->getName() << " signed " << obj.getName() << std::endl;
   } 
   catch(const std::exception &e){
-    std::cout << this->getName() << "couldn't sign " << obj.getName() << " because Bureaucrate Grade is lower." << std::endl;
+    std::cout << this->getName() << " couldn't sign " << obj.getName() << " because this Grade is too low." << std::endl;
   }
 }
 
