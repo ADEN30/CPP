@@ -15,7 +15,6 @@ class Intern
     public:
         Intern();
         ~Intern();
-        static AForm* PresidentialPardonForm_build(std::string);
         AForm*  makeForm(std::string, std::string) const;
 };
 

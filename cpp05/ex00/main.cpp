@@ -16,5 +16,20 @@ int main()
     {
         std::cerr << e.what() << '\n';
     }
+	std::cout << "\n";
+ 	try
+    {
+        Bureaucrat test("Valerian", 147);
+        test.promote();
+        test.demote();
+        test.demote();
+        test.demote();
+        test.demote();
+        test.demote();
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
     
 }

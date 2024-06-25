@@ -75,6 +75,11 @@ const std::string	AForm::getTarget() const
 	return (this->target);
 }
 
+const char* AForm::AFormAlreadySigned::what() const throw()
+{
+	return ("The form is already signed");
+}
+
 const char* AForm::GradeTooHighException::what() const throw()
 {
 	return ("The grade is too high");
@@ -86,11 +91,11 @@ const char* AForm::GradeTooLowException::what() const throw()
 
 void	AForm::beSigned(const Bureaucrat& obj)
 {
-	std::cout << "Can we sign the Form ?" << std:: endl;
-	if (obj.getGrade() > this->getSignGrade())
-	{
+	std::cout << "Can we sign the form " << name << "?" << std:: endl;
+	if (signe)
+		throw (AFormAlreadySigned());
+	else if (obj.getGrade() > rq_grade)
 		throw GradeTooLowException();
-	}
 	else
 	{
 		std::cout << "Yes, of course!" << std::endl;

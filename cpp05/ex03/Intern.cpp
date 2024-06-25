@@ -11,11 +11,6 @@ Intern::~Intern()
     std::cout << "Intern destructor is called." << std::endl;
 }
 
-AForm* Intern::PresidentialPardonForm_build(std::string target)
-{
-    return (new PresidentialPardonForm(target));
-}
-
 AForm*  Intern::makeForm(std::string name, std::string target) const
 {
     std::string formNames[] = {
@@ -24,8 +19,8 @@ AForm*  Intern::makeForm(std::string name, std::string target) const
         "shrubbery creation"
     };
     AForm* (*form[])(std::string target) = {
-        PresidentialPardonForm::build,
         RobotomyRequestForm::build,
+        PresidentialPardonForm::build,
         ShrubberyCreationForm::build};
     
     for ( int i(0); i < 3; i++ ) {

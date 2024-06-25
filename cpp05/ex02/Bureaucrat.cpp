@@ -69,7 +69,7 @@ void Bureaucrat::signForm(AForm& obj)
     }
   } 
   catch(const std::exception &e){
-    std::cout << this->getName() << "couldn't sign " << obj.getName() << " because Bureaucrate Grade is lower." << std::endl;
+    std::cout << this->getName() << " couldn't sign " << obj.getName() << " because Bureaucrate Grade is lower." << std::endl;
   }
 }
 
@@ -79,7 +79,7 @@ void  Bureaucrat::executeForm(const AForm& src)
   {
     if (!src.getSign())
     {
-      std::cout << src.getName() << " is not signed." << std::endl;
+      std::cout << src.getName() << " is not signed, " << name << " couldn't execute this Form." << std::endl;
       return ;
     }
     else

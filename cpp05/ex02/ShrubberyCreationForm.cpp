@@ -17,7 +17,7 @@ ShrubberyCreationForm& ShrubberyCreationForm::operator=(const ShrubberyCreationF
 
 ShrubberyCreationForm::~ShrubberyCreationForm()
 {
-	std::cout << "ShruberryCreationForm is Delete." << std::endl; 
+	std::cout << "ShruberryCreationForm destructor is called." << std::endl; 
 }
 
 void	ShrubberyCreationForm::execute(const Bureaucrat& executor) const

@@ -30,10 +30,10 @@ void RobotomyRequestForm::execute(const Bureaucrat& executor) const
     {
         if (localtime(&result)->tm_sec % 2)
         {
-            std::cout << this->getTarget() << " is robotomized succeccfully!" << std::endl;
+            std::cout << this->getTarget() << " is robotomized successfully !" << std::endl;
         }
         else
-            std::cout << this->getTarget() << " robotomized failed!" << std::endl;
+            std::cout << this->getTarget() << " robotomy failed !" << std::endl;
     }
     else
     {

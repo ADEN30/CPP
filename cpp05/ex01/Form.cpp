@@ -64,13 +64,18 @@ const char* Form::GradeTooLowException::what() const throw()
 	return ("The grade is too low");
 }
 
+const char* Form::FormAlreadySigned::what() const throw()
+{
+	return ("The form is already signed");
+}
+
 void	Form::beSigned(const Bureaucrat& obj)
 {
-	std::cout << "Can we sign the Form ?" << std:: endl;
-	if (obj.getGrade() > this->getSignGrade())
-	{
+	std::cout << "Can we sign the form " << name << "?" << std:: endl;
+	if (signe)
+		throw (FormAlreadySigned());
+	else if (obj.getGrade() > rq_grade)
 		throw GradeTooLowException();
-	}
 	else
 	{
 		std::cout << "Yes, of course!" << std::endl;
