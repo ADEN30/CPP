@@ -1,8 +1,8 @@
 #include "ToolsConverter.hpp"
-
+#include "ScalarConverter.hpp"
 bool isChar(std::string str)
 {
-    if (str.length() == 1 && isprint(str[0]) && !isdigit(str[0]))
+    if (str.length() == 1 && isprint(str[0]))
     {
         return (true);
     }
@@ -12,13 +12,14 @@ bool isChar(std::string str)
 bool isInt(std::string str)
 {
     long unsigned int i = 0;
+	double _d = strtod(str.c_str(), NULL);
     if (str[i] == '-' || str[i] == '+')
         i++;
     while(i < str.size() && isdigit(str[i]))
     {
         i++;
     }
-    if (str[i])
+    if (str[i] || _d > (std::numeric_limits<int32_t>::max()) || _d < std::numeric_limits<int32_t>::min())
         return (false);
     return (true);
 }
