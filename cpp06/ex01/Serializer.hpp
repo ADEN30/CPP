@@ -2,13 +2,14 @@
 #define SERIALIZER_HPP
 #include <iostream>
 #include <string>
+#include <stdint.h>
 #include "Data.hpp"
 
 class Serializer
 {   
     public:
-        static size_t serialize(Data* ptr);
-        static Data* deserialize(size_t raw);
+        static uintptr_t serialize(Data* ptr);
+        static Data* deserialize(uintptr_t raw);
 
 };
 #endif
