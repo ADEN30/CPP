@@ -4,7 +4,7 @@ RM = rm -rf
 
 GENERAL =
 
-NAME = Bureaucracy
+NAME = Iter
 SRCS = $(addsuffix .cpp, $(GENERAL))\
 	   main.cpp
 

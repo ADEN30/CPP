@@ -4,7 +4,7 @@ RM = rm -rf
 
 GENERAL =
 
-NAME = Compare
+NAME = Whatever
 SRCS = $(addsuffix .cpp, $(GENERAL))\
 	   main.cpp
 
