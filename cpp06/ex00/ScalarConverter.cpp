@@ -1,5 +1,9 @@
 #include "ScalarConverter.hpp"
 #include <cmath>
+
+ScalarConverter::ScalarConverter()
+{};
+
 void ScalarConverter::convert(std::string  str)
 {
     if (first_check(str))
