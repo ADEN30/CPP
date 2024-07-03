@@ -29,8 +29,7 @@ class Array
 		{
 			if (&rhs == this)
 				return (*this);
-			std::cout << _tab[1] << std::endl;
-			delete [] _size;
+			delete [] _tab;
 			_tab = new T(rhs.size());
 			_size = rhs.size();
 			for(unsigned int i(0); i < rhs.size(); i++)

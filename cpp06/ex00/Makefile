@@ -5,7 +5,7 @@ RM = rm -rf
 GENERAL =	ScalarConverter\
 			ToolsConverter\
 
-NAME = Bureaucracy
+NAME = ScalarConverter
 SRCS = $(addsuffix .cpp, $(GENERAL))\
 	   main.cpp
 

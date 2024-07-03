@@ -5,7 +5,7 @@ RM = rm -rf
 GENERAL =	Serializer\
 			Data\
 
-NAME = Bureaucracy
+NAME = Serializer
 SRCS = $(addsuffix .cpp, $(GENERAL))\
 	   main.cpp
 

@@ -7,7 +7,7 @@ GENERAL =	Base\
 			B\
 			C\
 
-NAME = Bureaucracy
+NAME = Base
 SRCS = $(addsuffix .cpp, $(GENERAL))\
 	   main.cpp
 
