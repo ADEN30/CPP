@@ -34,7 +34,7 @@ void ScalarConverter::convert(std::string  str)
 			}
 			else
 			{
-	           	std::cout << "Float: " << _f << "0f" << std::endl;
+	           	std::cout << "Float: " << _f << ".0f" << std::endl;
            		std::cout << "Double: " << static_cast<double>(_f) << ".0" << std::endl;
 			}
         }

@@ -16,7 +16,9 @@ int main(int, char**)
     }
    {
         Array<int> tmp = numbers;
+		std::cout << "Size of tab tmp: " << tmp.size() << std::endl;
         Array<int> test(tmp);
+		std::cout << "Size of tab test: " << test.size() << std::endl;
     }
 
     for (int i = 0; i < MAX_VAL; i++)
@@ -48,6 +50,7 @@ int main(int, char**)
     {
         numbers[i] = rand();
     }
+	std::cout << "Size of tab numbers: " << numbers.size() << std::endl;
     delete [] mirror;
     return 0;
 }

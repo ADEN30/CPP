@@ -29,7 +29,8 @@ class Array
 		{
 			if (&rhs == this)
 				return (*this);
-			delete [] _tab;
+			if (_tab)
+				delete [] _tab;
 			_tab = new T(rhs.size());
 			_size = rhs.size();
 			for(unsigned int i(0); i < rhs.size(); i++)
