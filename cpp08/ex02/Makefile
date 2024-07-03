@@ -4,7 +4,7 @@ RM = rm -rf
 
 GENERAL =
 
-NAME = Easyfind
+NAME = Mutanstack
 SRCS = $(addsuffix .cpp, $(GENERAL))\
 	   main.cpp
 

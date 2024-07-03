@@ -4,7 +4,7 @@ RM = rm -rf
 
 GENERAL = Span\
 
-NAME = Bureaucracy
+NAME = Span
 SRCS = $(addsuffix .cpp, $(GENERAL))\
 	   main.cpp
 
