@@ -24,15 +24,12 @@ void	Span::addNumber(unsigned int nb)
 	_arr.push_back(nb);
 }
 
-void Span::add_sev_numbers(unsigned int * tab, size_t size)
-{
 
-	if (size <= 0)
-		throw tabEmpty();
-	else if (size + _arr.size() > _size)
-		throw tabLength();
-	for(size_t i(0); i < size; i++)
-		this->addNumber(tab[i]);
+void	Span::addNumber(std::vector<int>::iterator begin, std::vector<int>::iterator end)
+{
+	if (_arr.size() + std::distance(begin, end) > _size)
+		throw tabFull();
+	_arr.insert(_arr.end(), begin, end);
 }
 
 unsigned int Span::shortestSpan()

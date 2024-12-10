@@ -22,7 +22,7 @@ class Span
         Span& operator=(const Span &);
         ~Span();
         void addNumber(unsigned int);
-        void add_sev_numbers(unsigned int *, size_t);
+        void addNumber(std::vector<int>::iterator, std::vector<int>::iterator);
         unsigned int shortestSpan();
         unsigned int longestSpan();
 
