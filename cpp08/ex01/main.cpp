@@ -5,6 +5,12 @@ int main()
 {
 
 	Span sp = Span(5);
+	try {
+		std::cout << "shortest span: " << sp.shortestSpan() << std::endl;
+	}
+	catch (std::exception &e){
+		std::cout << e.what() << std::endl;
+	}
 	sp.addNumber(5);
 	sp.addNumber(3);
 	sp.addNumber(17);
