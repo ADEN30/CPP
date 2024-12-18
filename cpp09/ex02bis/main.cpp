@@ -133,7 +133,7 @@ void sort_pairs(Container& element) {
             second = it;
             std::cout << "first = " << *first << " second = " << *second << std::endl;
             if (*second < *first) {
-                std::cout << "swap" << std::endl;
+                // std::cout << "swap" << std::endl;
 				if (first == element.begin())
 				{
 				}
@@ -147,23 +147,134 @@ void sort_pairs(Container& element) {
     }
 
     // Affichage de l'état du conteneur après tri
-    std::cout << "Liste après tri des paires : ";
-    for (typename Container::iterator it = element.begin(); it != element.end(); ++it) {
-        std::cout << *it << " ";
-    }
+    // std::cout << "Liste après tri des paires : ";
+    // for (typename Container::iterator it = element.begin(); it != element.end(); ++it) {
+    //     std::cout << *it << " ";
+    // }
     std::cout << std::endl;
+}
+
+
+template <typename Container>
+void copy_src_in_dest(Container &src, Container &dest)
+{
+	typename Container::iterator it_src = src.begin();
+	
+	while (it_src != src.end())
+	{
+		dest.push_back(*it_src);
+		it_src = src.erase(it_src);
+	}
+}
+
+
+template <typename Container>
+void complete_pend(Container &pend, Container &main_chain, size_t size_element)
+{
+	typename Container::iterator it_main_chain = main_chain.begin();
+	size_t count = 0;
+
+	while (it_main_chain != main_chain.end())
+	{
+		if(count % 2 != 0 && count > 1)
+		{
+			std::advance(it_main_chain, -size_element);
+			for (size_t i = 0; i < size_element && it_main_chain != main_chain.end(); i++)
+			{
+				pend.push_back(*it_main_chain);
+				it_main_chain = main_chain.erase(it_main_chain);
+			}
+		}
+		
+		count++;
+		for (size_t i = 0; it_main_chain != main_chain.end() && i < size_element ; i++, it_main_chain++);
+		
+	}
+}
+
+
+template <typename Container>
+void insert_binary(Container &main_chain, Container &pend, size_t size_element)
+{
+	typename Container::iterator it_main_chain = main_chain.begin();
+	typename Container::iterator it_pend = pend.begin();
+	std::cout << "Tab insert_binary : " << container_to_string(pend) << " into : " << container_to_string(main_chain) << " with size element: " << size_element << std::endl; 
+	if(size_element > pend.size())
+		return ;
+	for (size_t i = 0; i < size_element && it_pend != pend.end(); i++)
+	{
+		it_pend++;
+	}
+	it_pend--;
+	std::cout << "value to insert : " << *it_pend << std::endl;
+	for (size_t i = 0; i < size_element -1 && it_main_chain != main_chain.end() && it_pend != pend.end(); i++, it_main_chain++);	
+	while(it_main_chain != main_chain.end() && it_pend != pend.end())
+	{
+
+		if (*it_pend > *it_main_chain)	
+		{
+			std::cout << "first comparaison : " << *it_pend << "\t" << *it_main_chain << std::endl; 
+			for (size_t i = 0; i < size_element && it_main_chain != main_chain.end() && it_pend != pend.end(); i++, it_main_chain++);	
+			std::cout << "Second comparaison : " << *it_pend << "\t" << *it_main_chain << std::endl; 
+			if (*it_pend < *it_main_chain)
+			{
+				//std::advance(it_pend, -size_element + 1);
+				std::advance(it_main_chain, -size_element + 1);
+				for (size_t i = 0; i < size_element; i++)
+				{
+					std::cout << "insert boucle : " << *it_pend << " into main_chain" << std::endl;
+					it_main_chain = main_chain.insert(it_main_chain, *it_pend);
+					it_pend = pend.erase(it_pend);
+					if(it_pend == pend.end())
+						it_pend--;
+				}
+				std::cout << "main_chain after 1 bloc of pend : " << container_to_string(main_chain) << std::endl;
+				return ;	
+			}
+		}
+		else
+			for (size_t i = 0; i < size_element && it_main_chain != main_chain.end() && it_pend != pend.end(); i++, it_main_chain++);	
+	}
+
+	it_pend = pend.begin();
+
+	std::advance(it_pend, size_element);
+	for (size_t i = size_element; i > 0; i--)
+	{
+		std::advance(it_pend, -1);
+		main_chain.push_front(*it_pend);
+		pend.erase(it_pend);
+	}
+	
+	
+	
+}
+
+
+template <typename Container>
+Container group_to_insert(Container &pend, std::deque<int> &tab, size_t size_element)
+{
+	Container group;
+
+	std::deque<int>::iterator it_tab = tab.begin();
+
+	
+	
 }
 
 template <typename Container>
 Container ford_johnson_sort(Container& container, size_t nb_boucle) {
-	std::cout << "CALL FORD-JONHSON" << std::endl;
+	std::cout << "\033[31mCALL FORD-JONHSON\033[00m" << std::endl;
+	std::cout << "Container before the sort: " << container_to_string(container) << " and the size of groupe : " << nb_boucle << std::endl;
     // Vérification de la condition d'arrêt : taille <= 1 ou non divisible par nb_boucle
-    if (container.size() <= 1) {
+    if (container.size() <= 1 || container.size() / nb_boucle < 1) {
         return container;  // Retourner le conteneur tel quel si la taille n'est pas divisible par nb_boucle
     }
 
     // Diviser le conteneur en paires
     Container main_chain;
+	Container pend;
+	Container odd;
     typename Container::iterator it = container.begin();
     typename Container::iterator init = it;
     std::list<int> tmp;
@@ -193,17 +304,52 @@ Container ford_johnson_sort(Container& container, size_t nb_boucle) {
         }
 
         // Affichage du conteneur après modification
-        std::cout << "Container après modification: ";
-        for (typename Container::iterator iter = main_chain.begin(); iter != main_chain.end(); ++iter) {
-            std::cout << *iter << " ";
-        }
-        std::cout << std::endl;
+        // std::cout << "Container après modification: ";
+        // for (typename Container::iterator iter = main_chain.begin(); iter != main_chain.end(); ++iter) {
+        //     std::cout << *iter << " ";
+        // }
+        // std::cout << std::endl;
     }
+	// if we have a rest in main_chain
+	copy_src_in_dest(container, main_chain);
+	std::cout << "Container after the sort: " << container_to_string(main_chain) << " and the size of groupe : " << nb_boucle << std::endl;
 
     // Appel récursif si la taille de main_chain est encore divisible par nb_boucle
-    if (main_chain.size() % nb_boucle == 0) {
-        return ford_johnson_sort(main_chain, nb_boucle *2);
+    if (main_chain.size() / nb_boucle > 1) {
+        main_chain = ford_johnson_sort(main_chain, nb_boucle *2);
+
+		//Build odd
+		for (size_t i = main_chain.size() % (nb_boucle); i > 0 ; i--)
+		{
+			typename Container::iterator it_main = main_chain.end();
+			std::advance(it_main, -1);
+			odd.push_front(*it_main);
+			it_main = main_chain.erase(it_main);
+		}
+		
+		// Build pend
+		complete_pend(pend, main_chain, nb_boucle / 2);
+		std::cout << "Pend: " << container_to_string(pend) << std::endl;
+		size_t nb_group_ini_pend = pend.size() / (nb_boucle / 2);
+		std::cout << "group with jacobsthal : " << container_to_string(compute_group_sizes((pend.size() / (nb_boucle / 2))));
+		for (size_t i = 0; i < nb_group_ini_pend; i++)
+		{
+			insert_binary(main_chain, pend, nb_boucle / 2);
+		}
+
+		std::cout << "Pend after insert: " << container_to_string(pend) << std::endl;
+		std::cout << "Odd just before insert: " << container_to_string(odd) << std::endl;
+		
+		//Insert odd
+		insert_binary(main_chain, odd, nb_boucle / 2);
+		std::cout << "Odd after insert: " << container_to_string(odd) << std::endl;
+		copy_src_in_dest(odd, main_chain );
     }
+		std::cout << "Container at the end: " << container_to_string(main_chain) << std::endl;
+		std::cout << "Odd at the end: " << container_to_string(odd) << std::endl;
+		std::cout << "Pend at the end: " << container_to_string(pend) << std::endl;
+		std::cout << "End of iteration " << std::endl;	
+
 
     // Retourner la chaîne principale une fois que la taille n'est plus divisible par nb_boucle
     return main_chain;
@@ -259,12 +405,12 @@ int main(int argc, char** argv) {
     	std::cout << "Temps pour trier " << deq.size() << " éléments avec Ford-Johnson : " << time_deq << "s" << std::endl;
 
 
-    clock_t start_list = clock();
-    ford_johnson_sort(lis, 2);
-    clock_t end_list = clock();
-    double time_list = static_cast<double>(end_list - start_list) / CLOCKS_PER_SEC;
+    // clock_t start_list = clock();
+    // ford_johnson_sort(lis, 2);
+    // clock_t end_list = clock();
+    // double time_list = static_cast<double>(end_list - start_list) / CLOCKS_PER_SEC;
 
     // Affichage des résultats
-    std::cout << "Temps pour trier list " << lis.size() << " éléments avec Ford-Johnson : " << time_list << "s" << std::endl;
+    // std::cout << "Temps pour trier list " << lis.size() << " éléments avec Ford-Johnson : " << time_list << "s" << std::endl;
     return EXIT_SUCCESS;
 }
