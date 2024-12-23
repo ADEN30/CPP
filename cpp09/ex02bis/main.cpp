@@ -89,6 +89,19 @@ std::deque<size_t> compute_group_sizes(size_t n) {
     return group_sizes;
 }
 
+template <typename Container>
+size_t return_offset_to_insert_element(Container &tab_of_groups)
+{
+	size_t total = 0;
+
+	for (typename Container::iterator i = tab_of_groups.begin(); i < tab_of_groups.end(); i++)
+	{
+		total += *i;		
+	}
+	
+	return (total);
+}
+
 // Insérer les éléments restants en utilisant les groupes Jacobsthal
 template <typename Container>
 void optimized_insertion(Container& container, std::list<typename Container::value_type>& main_chain, 
@@ -145,12 +158,6 @@ void sort_pairs_increase(Container& element) {
         ++it;
         ++count;
     }
-
-    // Affichage de l'état du conteneur après tri
-    // std::cout << "Liste après tri des paires : ";
-    // for (typename Container::iterator it = element.begin(); it != element.end(); ++it) {
-    //     std::cout << *it << " ";
-    // }
 }
 
 template <typename Container>
@@ -190,12 +197,6 @@ void sort_pairs_decreasing(Container& element) {
         ++it;
         ++count;
     }
-
-    // Affichage de l'état du conteneur après tri
-    // std::cout << "Liste après tri des paires : ";
-    // for (typename Container::iterator it = element.begin(); it != element.end(); ++it) {
-    //     std::cout << *it << " ";
-    // }
 }
 
 
@@ -238,21 +239,26 @@ void complete_pend(Container &pend, Container &main_chain, size_t size_element)
 
 
 template <typename Container>
-void insert_binary(Container &main_chain, Container &pend, size_t size_element)
+typename Container::iterator insert_binary(Container &main_chain, Container &pend, size_t size_element, typename Container::iterator lim_search)
 {
 	typename Container::iterator it_main_chain = main_chain.begin();
 	typename Container::iterator it_pend = pend.begin();
+	(void)lim_search;
 	if(size_element > pend.size())
-		return ;
+		return (main_chain.end());
 	for (size_t i = 0; i < (size_element - 1) && it_pend != pend.end(); i++, it_pend++);
-	for (size_t i = 0; i < (size_element - 1) && it_main_chain != main_chain.end(); i++, it_main_chain++);	
+	for (size_t i = 0; i < (size_element - 1) && it_main_chain != lim_search; i++, it_main_chain++);	
 
-	while(it_main_chain != main_chain.end() && it_pend != pend.end())
+	if (size_element == 1)
+		lim_search = main_chain.end();
+	while(it_main_chain != lim_search && it_pend != pend.end())
 	{
 
 		if (*it_pend > *it_main_chain)	
 		{
-			for (size_t i = 0; i < size_element && it_main_chain != main_chain.end(); i++, it_main_chain++);	
+			//std::cout << "tagrget 1 = " << *it_main_chain << std::endl;
+			for (size_t i = 0; i < size_element && it_main_chain != lim_search; i++, it_main_chain++);	
+			//std::cout << "tagrget 2 = " << *it_main_chain << std::endl;
 			if (*it_pend < *it_main_chain)
 			{
 				//std::advance(it_pend, -size_element + 1);
@@ -264,11 +270,11 @@ void insert_binary(Container &main_chain, Container &pend, size_t size_element)
 					if(it_pend != pend.begin())
 						it_pend--;
 				}
-				return ;	
+				return (it_main_chain);	
 			}
 		}
 		else
-			for (size_t i = 0; i < size_element && it_main_chain != main_chain.end(); i++, it_main_chain++);	
+			for (size_t i = 0; i < size_element && it_main_chain != lim_search; i++, it_main_chain++);	
 	}
 
 	it_pend = pend.begin();
@@ -286,6 +292,7 @@ void insert_binary(Container &main_chain, Container &pend, size_t size_element)
 			if (it_pend != pend.begin())
 				it_pend--;
 		}
+		return (main_chain.begin());
 	}
 	else
 	{
@@ -297,6 +304,7 @@ void insert_binary(Container &main_chain, Container &pend, size_t size_element)
 			if (it_pend != pend.begin())
 				it_pend--;
 		}
+		return (main_chain.end());
 	}
 
 
@@ -310,25 +318,35 @@ template <typename Container>
 Container group_to_insert(Container &pend, std::deque<size_t> &tab, size_t size_element)
 {
 	Container group;
+	Container tmp_group;
+	Container merge_group;
 
 	std::deque<size_t>::iterator it_tab = tab.begin();
 	typename Container::iterator it_pend = pend.begin();
 
 	if(pend.size() <= size_element)
 		return pend;
-	for (size_t i = 0; i < *it_tab; i++)
+	std::advance(it_pend, (*it_tab * size_element) - 1);
+	for (size_t i = 0; i < *it_tab ; i++)
 	{
 		for (size_t j = 0; j < size_element; j++)
 		{
-			group.push_back(*it_pend);
+		
+			tmp_group.push_front(*it_pend);
 			it_pend = pend.erase(it_pend);
+			if (it_pend != pend.begin())
+				it_pend--;
+		}
+		typename Container::iterator it_tmp_group = tmp_group.begin();
+		for (size_t j = 0; j < size_element; j++)
+		{
+			group.push_back(*it_tmp_group);
+			it_tmp_group = tmp_group.erase(it_tmp_group);
 		}
 		
 	}
+
 	it_tab = tab.erase(it_tab);
-
-	sort_pairs_decreasing(group);
-
 	return (group);
 	
 }
@@ -338,7 +356,7 @@ Container ford_johnson_sort(Container& container, size_t nb_boucle) {
     // Vérification de la condition d'arrêt : taille <= 1 ou non divisible par nb_boucle
     if (container.size() <= 1 || container.size() / nb_boucle < 1) {
         return container;  // Retourner le conteneur tel quel si la taille n'est pas divisible par nb_boucle
-    }
+	}
 
     // Diviser le conteneur en paires
     Container main_chain;
@@ -371,20 +389,15 @@ Container ford_johnson_sort(Container& container, size_t nb_boucle) {
         for (typename std::list<int>::iterator i = tmp.begin(); i != tmp.end(); ++i) {
             main_chain.push_back(*i);
         }
-
-        // Affichage du conteneur après modification
-        // std::cout << "Container après modification: ";
-        // for (typename Container::iterator iter = main_chain.begin(); iter != main_chain.end(); ++iter) {
-        //     std::cout << *iter << " ";
-        // }
-        // std::cout << std::endl;
     }
-	// if we have a rest in container
-	copy_src_in_dest(container, main_chain);
+		// if we have a rest in container
+		copy_src_in_dest(container, main_chain);
 
     // Appel récursif si la taille de main_chain est encore divisible par nb_boucle
     if (main_chain.size() / (nb_boucle) > 1) {
-        main_chain = ford_johnson_sort(main_chain, nb_boucle *2);
+        main_chain = ford_johnson_sort(main_chain, nb_boucle*2);
+	}
+	
 
 		//Build odd
 		for (size_t i = main_chain.size() % (nb_boucle * 2); i > 0 ; i--)
@@ -397,35 +410,48 @@ Container ford_johnson_sort(Container& container, size_t nb_boucle) {
 		
 		// Build pend
 		complete_pend(pend, main_chain, nb_boucle);
+
+		// Insert Pend
 		std::deque<size_t> group_jacobsthal = compute_group_sizes(pend.size() / (nb_boucle));
 		size_t nb_group_jacobsthal = group_jacobsthal.size();
+		size_t nb_pairs = return_offset_to_insert_element(group_jacobsthal);
+		
+		
+
 		for (size_t i = 0; i < nb_group_jacobsthal; i++)
 		{
 			// print_colored("Group of Pend before jacobsthal" , "red");
 			// print_colored(container_to_string(pend), "red");
-			Container tmp_group_pend =  group_to_insert(pend, group_jacobsthal, nb_boucle);
+		
 
+			typename Container::iterator it_old = main_chain.end();
+			size_t keep_jacobsthal_nb = *group_jacobsthal.begin(); 
+
+
+			Container tmp_group_pend =  group_to_insert(pend, group_jacobsthal, nb_boucle);
 
 			// insert all element of the group jacobsthal
 			size_t nb_element_to_insert = tmp_group_pend.size() / (nb_boucle);
 			for (size_t j = 0; j < nb_element_to_insert; j++)
 			{
-				insert_binary(main_chain, tmp_group_pend, nb_boucle);
+				it_old = main_chain.end();
+				std::advance(it_old, -static_cast<long long>((nb_pairs + j - keep_jacobsthal_nb) * nb_boucle));
+				insert_binary(main_chain, tmp_group_pend, nb_boucle, it_old);
+				nb_pairs -= 1;
 			}
-			
-			// print_colored("Group of Pend after INSERT" , "yellow");
-			// print_colored(container_to_string(tmp_group_pend), "yellow");
 		}
 
 		//Insert odd	
 
 		size_t insert_n_group_by_odd = odd.size() / (nb_boucle);
+		typename Container::iterator it_old = main_chain.end();
 
 		for (size_t i = 0; i < insert_n_group_by_odd; i++)
-			insert_binary(main_chain, odd, nb_boucle);
+		{
+			insert_binary(main_chain, odd, nb_boucle, it_old);
+		}
 		// Copy odd 
 		copy_src_in_dest(odd, main_chain );
-    }	
 
 
     // Retourner la chaîne principale une fois que la taille n'est plus divisible par nb_boucle
