@@ -2,7 +2,7 @@ CC = c++
 CFLAGS = -Wall -Wextra -Werror -std=c++98 #-fsanitize=address
 RM = rm -rf
 
-GENERAL = SortMerge\
+GENERAL = PmergeMe\
 
 NAME = SortMerge
 SRCS = $(addsuffix .cpp, $(GENERAL))\
