@@ -8,7 +8,9 @@
 #include <cstdlib>
 #include <iomanip>
 #include <ctime>
-#include "Errors.hpp"
+#include <cstring>
+#include <exception>
+#include <sstream>
 
 class BitcoinRef
 {
@@ -29,6 +31,63 @@ class BitcoinRef
         void scale_bitcoin();
         void found_key(time_t &, std::string &);
         ~BitcoinRef();
+
+    class ConstructorErr : public std::exception
+    {
+        const char* what() const throw();
+    };
+    class DateErr : public std::exception 
+    {
+        const char* what() const throw();
+
+    };
+    class DateValueErr : public std::exception 
+    {
+        private:
+        size_t year;
+        size_t month;
+        size_t day;
+
+        public:
+        DateValueErr(size_t &annee, size_t &mois, size_t &jour);
+        const char* what() const throw();
+
+    };
+    class WallErr : public std::exception 
+    {
+        const char* what() const throw();
+
+    };
+    class LineErr : public std::exception 
+    {
+        const char* what() const throw();
+
+    };
+    class ValuetoUpperErr : public std::exception 
+    {
+        const char* what() const throw();
+
+    };
+    class ValueNegativeErr : public std::exception 
+    {
+        const char* what() const throw();
+
+    };
+    class CommaErr : public std::exception 
+    {
+        const char* what() const throw();
+
+    };
+    class SpaceErr : public std::exception 
+    {
+        const char* what() const throw();
+
+    };
+    class FileErr : public std::exception 
+    {
+        const char* what() const throw();
+
+    };
 
 };
 

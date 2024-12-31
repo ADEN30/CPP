@@ -3,7 +3,7 @@
 RPN::RPN(std::string & str)
 {
     std::string _build;
-
+    int nombre;
     for(long unsigned int i = 0; i < str.size(); i++)
     { 
         if ((str[i] == '-' || str[i] == '+') && i < str.size() - 1 && std::isdigit(str[i + 1]))
@@ -11,8 +11,11 @@ RPN::RPN(std::string & str)
         if (std::isdigit(str[i])) 
         {
             _build.push_back(str[i]);
-            _digit.push_back(std::atoi(_build.c_str()));
+            nombre = std::atoi(_build.c_str());
+            _digit.push_back(nombre);
             _build.clear();
+            if (i < str.size() - 1 && std::isdigit(str[i + 1]))
+                throw (std::string("The figures maximal is 9, you have a figure hightest than 9"));
         }
         else if (str[i] == '-' || str[i] == '+' || str[i] == '*' || str[i] == '/')
         {
@@ -20,7 +23,8 @@ RPN::RPN(std::string & str)
             this->calculate();
         }
         else if (i < str.size() && str[i] != ' ')
-            throw std::string("You expression is wrong");
+            throw std::string("Error");
+
     }
    if (this->getDigitsize() > 1)
         throw std::string("The syntaxe of RPN is wrong. Maybe, you have to much number. We take only 0 <= number < 10");
@@ -101,20 +105,14 @@ void RPN::calculate()
         }
         
     }
-    if (this->getDigitsize() > 1)
-        throw std::string("The syntaxe of RPN is wrong. Maybe, you have to much number. We take only 0 <= number < 10");
-    else if (_operator.size() > 0)
-        throw std::string("The syntaxe of RPN is wrong. Maybe, you have to much operator..");
 }
 
 std::ostream& operator<<(std::ostream& f, const RPN & src)
 {
     const int*  _tab;
     _tab = src.getdigit();
-    f << "digit : ";
     for(unsigned int i = 0; i < src.getDigitsize(); i++)
         f << _tab[i] << " ";
-    f << "operator : " << src.getstr();
     
     return (f);
 

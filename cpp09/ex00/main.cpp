@@ -2,10 +2,11 @@
 
 int main(int argc, char** argv)
 {
-    (void) argc;
-    std::string file = argv[1];
     try
     {
+        if (argc < 2)
+            throw BitcoinRef::FileErr();
+        std::string file = argv[1];
         BitcoinRef _bitcoin(file);
         _bitcoin.scale_bitcoin();
         
