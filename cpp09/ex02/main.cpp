@@ -99,7 +99,7 @@ int main(int argc, char** argv) {
 
     // Affichage des résultats
   	std::cout << "Après : " << container_to_string(lis) << std::endl;
-    std::cout << "Time to process a range of " << lis.size() << " elements with std::list : " << time_list  << "s" << std::endl;
+    std::cout <<"Time to process a range of " << lis.size() << " elements with std::list : " << time_list  << "s" << std::endl;
 
     // Mesure du temps pour le deque
     clock_t start_deq = clock();

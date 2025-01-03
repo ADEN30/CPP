@@ -27,9 +27,9 @@ RPN::RPN(std::string & str)
 
     }
    if (this->getDigitsize() > 1)
-        throw std::string("The syntaxe of RPN is wrong. Maybe, you have to much number. We take only 0 <= number < 10");
+        throw std::string("The syntaxe of RPN is wrong. Maybe, you have too many number. We take only 0 <= number < 10");
     else if (_operator.size() > 0)
-        throw std::string("The syntaxe of RPN is wrong. Maybe, you have to much operator..");
+        throw std::string("The syntaxe of RPN is wrong. Maybe, you have too many operator..");
 }
 
 RPN::RPN(const RPN & src)

@@ -3,7 +3,7 @@
 BitcoinRef::BitcoinRef(std::string & file) : _file(file)
 {
     std::string _str;
-    std::ifstream in("./cpp_09/data.csv", std::ios::in);
+    std::ifstream in("./data.csv", std::ios::in);
 
     if (!in.is_open())
         throw BitcoinRef::FileErr();

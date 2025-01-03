@@ -112,12 +112,9 @@ void sort_pairs_decreasing(Container& element) {
         else if (count == element.size() - 1) {
             // Comparer et échanger avec le dernier élément
             second = it;
-            if (*second > *first) {
-                // std::cout << "swap" << std::endl;
-				if (first == element.begin())
-				{
-				}
-					std::advance(first, 1);
+            if (*second > *first) 
+			{
+				std::advance(first, 1);
                 std::rotate(element.begin(),  first, element.end()); // Echanger les éléments
             }
         }

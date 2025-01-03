@@ -10,7 +10,7 @@ class RPN
 {
     private:
         std::vector<int> _digit;
-        int _size;
+        //int _size;
         std::string _operator;
     public:
         RPN(std::string &);
