@@ -3,7 +3,8 @@
 BitcoinRef::BitcoinRef(std::string & file) : _file(file)
 {
     std::string _str;
-    std::ifstream in("./data.csv", std::ios::in);
+	std::string data_file = "./data.csv";
+    std::ifstream in(data_file.c_str(), std::ios::in);
 
     if (!in.is_open())
         throw BitcoinRef::FileErr();
@@ -12,34 +13,67 @@ BitcoinRef::BitcoinRef(std::string & file) : _file(file)
     {
         try
         {
-            if (!BitcoinRef::check_date(_str))
-                throw (BitcoinRef::ConstructorErr());
             _arr.insert(std::pair<time_t, float>(BitcoinRef::build_key(_str, ','), BitcoinRef::search_value(_str, ",")));
         }
         catch( const std::exception & e)
         {
-            std::cerr << e.what() << '\n';
+            std::cerr << e.what() << "(" << data_file << ")" << '\n';
         } 
     }
     in.close();
 
 }
-/*Check format of the date*/
-bool    BitcoinRef::check_date(std::string & str)
-{
-    unsigned int _i = 0;
-    int _count = 0;
 
-    while ((std::isdigit(str[_i]) && _i < str.size()) || (str[_i] == '-' && (_i) > 0 && std::isdigit(str[_i - 1])))
-    {
-       if (str[_i] != '-')
-            _count++;
-        _i++;
+/*Check format of the line*/
+void    BitcoinRef::isValidFormatInputFile(std::string  input)
+{
+     // Vérifier la longueur totale (date + " | " + valeur)
+    if (input.length() < 14) throw LineErr(input);
+
+    // Vérifier le format de la date (aaaa-mm-dd)
+    if (input[4] != '-' || input[7] != '-') throw LineErr(input);
+
+    std::string year = input.substr(0, 4);
+    std::string month = input.substr(5, 2);
+    std::string day = input.substr(8, 2);
+
+    // Vérifier si la date est valide (format aaaa-mm-dd)
+    for (size_t i = 0; i < 4; ++i) if (!isdigit(year[i])) throw LineErr(input);
+    for (size_t i = 0; i < 2; ++i) if (!isdigit(month[i])) throw LineErr(input);
+    for (size_t i = 0; i < 2; ++i) if (!isdigit(day[i])) throw LineErr(input);
+
+    // Vérifier que la partie après " | " existe
+    size_t pipePos = input.find(" | ", 10);  // " | " doit commencer après le 10ème caractère
+    if (pipePos == std::string::npos) throw LineErr(input);
+    std::string number = input.substr(pipePos + 3);  // Après " | "
+
+    // Vérifier si la valeur est un nombre valide
+    bool hasDecimalPoint = false;
+    bool hasDigits = false;
+
+    for (size_t i = 0; i < number.length(); ++i) {
+        if (isdigit(number[i])) {
+            hasDigits = true;
+            continue;
+        }
+        if (number[i] == '.' && !hasDecimalPoint) {
+            hasDecimalPoint = true;
+            continue;
+        }
+        throw LineErr(input); // Si un caractère non numérique ou plusieurs points décimaux
     }
-    if (_count != 8)
-        throw BitcoinRef::DateErr();
-    
-    return (1);
+
+    // Si la valeur est valide, essayer de la convertir manuellement
+    char* endPtr;
+    double value = strtod(number.c_str(), &endPtr);  // Conversion en double via strtod
+
+    // Si la conversion échoue (par exemple, si le nombre est invalide), endPtr ne doit pas pointer à la fin de la chaîne
+    if (*endPtr != '\0') throw LineErr(input);
+
+    // Vérifier que la valeur est positive et inférieure à 1000
+    if (value < 0 || value >= 1000) {
+        throw LineErr(input);
+    }
 }
 
 bool BitcoinRef::check_format(std::string & str, std::string & wall)
@@ -59,7 +93,7 @@ bool BitcoinRef::check_format(std::string & str, std::string & wall)
     if (str[_index] == '-')
         throw BitcoinRef::ValueNegativeErr();
     if (_index < str.size())
-        throw BitcoinRef::LineErr();
+        throw BitcoinRef::LineErr(str);
     return (1);
 }
 
@@ -211,19 +245,25 @@ void BitcoinRef::scale_bitcoin()
     std::string _sep = " | ";
 
     if (!_in.is_open())
+	{
         throw BitcoinRef::FileErr();
+	}
+
+	std::getline(_in, _str);
+	if (!(_str == "date | value"))
+		throw FileErr();
     while (std::getline(_in, _str))
     {
         try
         {
-            check_date(_str);
-            check_format(_str, _sep);
+            isValidFormatInputFile(_str);
+			check_format(_str, _sep);
             time_t _t = BitcoinRef::build_key(_str, ' ');
             this->found_key(_t, _str);
         }
-        catch(const std::exception & e)
+        catch(LineErr & e)
         {
-            std::cerr << e.what() << '\n';
+            std::cerr << e.Line() << '\n';
         }
         
     }
@@ -313,12 +353,20 @@ const char* BitcoinRef::DateValueErr::what() const throw()
 
 const char* BitcoinRef::WallErr::what() const throw()
 {
-    return ("Errors the separation format is not availible");
+    return ("Errors format");
 }
 
-const char* BitcoinRef::LineErr::what() const throw()
+BitcoinRef::LineErr::LineErr(std::string & line) : str(line){}
+BitcoinRef::LineErr::~LineErr() throw(){}
+const std::string BitcoinRef::LineErr::Line()
 {
-    return ("Errors format of the line, some characters are too many, invalid or missing");
+	std::ostringstream oss;
+
+	oss << "Errors: bad input => ";
+	oss << str;
+
+	const std::string flux = oss.str();
+    return (flux);
 }
 
 const char* BitcoinRef::ValuetoUpperErr::what() const throw()

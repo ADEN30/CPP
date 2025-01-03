@@ -17,7 +17,7 @@ class BitcoinRef
     private :
         std::map<time_t, float> _arr;
         std::string _file;
-        static bool check_date(std::string &);
+        static void isValidFormatInputFile(std::string );
         static bool check_format(std::string &, std::string & wall);
         static float search_value(std::string &, std::string );
         static time_t build_key(std::string &, char );
@@ -60,7 +60,12 @@ class BitcoinRef
     };
     class LineErr : public std::exception 
     {
-        const char* what() const throw();
+		private:
+			std::string str;
+		public:
+			LineErr(std::string & line);
+			~LineErr() throw();
+        	const std::string Line();
 
     };
     class ValuetoUpperErr : public std::exception 
