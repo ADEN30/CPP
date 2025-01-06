@@ -4,7 +4,7 @@ RM = rm -rf
 
 GENERAL = BitcoinRef\
 
-NAME = Bureaucracy
+NAME = btc
 SRCS = $(addsuffix .cpp, $(GENERAL))\
 	   main.cpp
 

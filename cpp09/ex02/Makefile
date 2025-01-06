@@ -4,7 +4,7 @@ RM = rm -rf
 
 GENERAL = PmergeMe\
 
-NAME = SortMerge
+NAME = PmergeMe
 SRCS = $(addsuffix .cpp, $(GENERAL))\
 	   main.cpp
 
